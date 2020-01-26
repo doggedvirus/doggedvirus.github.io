@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Virus的Blog</title>
+    <link>https://doggedvirus.com/</link>
+    <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
+    
+    <description>我们的征途是星辰和大海</description>
+    <pubDate>Wed, 06 Dec 2017 11:56:36 GMT</pubDate>
+    <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>mysql触发器的使用</title>
+      <link>https://doggedvirus.com/2017/12/06/mysql%E8%A7%A6%E5%8F%91%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <guid>https://doggedvirus.com/2017/12/06/mysql%E8%A7%A6%E5%8F%91%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <pubDate>Wed, 06 Dec 2017 10:00:00 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;制作一个后台程序时，需要获得mysql数据库中某些指定表的最后一个数据的编辑时间，由于来自于前端的请求可能很频繁，因此写了个定时器，定时获取数据存到内存，请求时直接返回内存数据，在对实时性要求不高的情况下没有问题。然而，由于涉及到近10张表，每次轮询感觉费时费力，因此就使用
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>制作一个后台程序时，需要获得mysql数据库中某些指定表的最后一个数据的编辑时间，由于来自于前端的请求可能很频繁，因此写了个定时器，定时获取数据存到内存，请求时直接返回内存数据，在对实时性要求不高的情况下没有问题。然而，由于涉及到近10张表，每次轮询感觉费时费力，因此就使用了mysql的触发器来进行优化，具体思路就是在涉及到的近10张表中每张表建立触发器，每次insert或update后就酱本表的最晚编辑时间更新到一张新建的专门用来存储最近编辑时间的表，这样后台轮询只需要使用一次select语句，理论上性能提升了近10倍。<br>触发器的建立网上有很多资料，我记录一下我踩的坑</p><h1 id="拥有触发器的数据器不可直接改名"><a href="#拥有触发器的数据器不可直接改名" class="headerlink" title="拥有触发器的数据器不可直接改名"></a>拥有触发器的数据器不可直接改名</h1><p>一旦数据库中用了触发器，这个触发器的改名就只能通过备份-新建目标名称数据库-再还原的方式了</p><h1 id="使用”delimiter-”的限制"><a href="#使用”delimiter-”的限制" class="headerlink" title="使用”delimiter $”的限制"></a>使用”delimiter $”的限制</h1><p>Qt中，QSqlQuery::exec所执行的语句与mysql命令行所能执行的语句是不一样的，前者被包含于后者，这导致的一个问题就是诸如”delimiter $”重新定义mysql语句结束符的语句QSqlQuery::exec不认识，因此如果想要在Qt代码中完成数据库更改，只能将Begin-End之间的语句压缩到一行</p>]]></content:encoded>
+      
+      <comments>https://doggedvirus.com/2017/12/06/mysql%E8%A7%A6%E5%8F%91%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>对nodejs项目进行https化</title>
+      <link>https://doggedvirus.com/2017/11/12/%E5%AF%B9nodejs%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8Chttps%E5%8C%96/</link>
+      <guid>https://doggedvirus.com/2017/11/12/%E5%AF%B9nodejs%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8Chttps%E5%8C%96/</guid>
+      <pubDate>Sun, 12 Nov 2017 11:12:58 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;代码上的替换很简单，把&lt;br&gt;&lt;figure class=&quot;highlight routeros&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>代码上的替换很简单，把<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.listen(port, () =&gt; &#123;</span><br><span class="line">        console.log(`<span class="variable">$&#123;pkg.name&#125;</span> listening on<span class="built_in"> port </span><span class="variable">$&#123;port&#125;</span>`)</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p><p>替换成<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https.createServer(&#123;</span><br><span class="line">        key: fs.readFileSync(<span class="string">'./dist/static/pem/server.pem'</span>),</span><br><span class="line">        cert: fs.readFileSync(<span class="string">'./dist/static/pem/server.crt'</span>),</span><br><span class="line">    &#125;, app).listen(port, () =&gt; &#123;</span><br><span class="line">        console.log(`<span class="variable">$&#123;pkg.name&#125;</span> listening on<span class="built_in"> port </span><span class="variable">$&#123;port&#125;</span>`)</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p><p>其中<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">const https</span> = require(<span class="string">'https'</span>);</span><br><span class="line"><span class="attribute">const app</span> = express();</span><br></pre></td></tr></table></figure></p><p>难点之一，自签https证书的制作，仅需3个步骤，根本不需要生成所谓的CA证书再给服务器证书签名<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">openssl</span> <span class="selector-tag">genrsa</span> 1024 &gt; <span class="selector-tag">server</span><span class="selector-class">.pem</span>  </span><br><span class="line"><span class="selector-tag">openssl</span> <span class="selector-tag">req</span> <span class="selector-tag">-new</span> <span class="selector-tag">-key</span> <span class="selector-tag">server</span><span class="selector-class">.pem</span> <span class="selector-tag">-out</span> <span class="selector-tag">csr</span><span class="selector-class">.pem</span>  </span><br><span class="line"><span class="selector-tag">openssl</span> <span class="selector-tag">x509</span> <span class="selector-tag">-req</span> <span class="selector-tag">-days</span> 3650 <span class="selector-tag">-in</span> <span class="selector-tag">csr</span><span class="selector-class">.pem</span> <span class="selector-tag">-signkey</span> <span class="selector-tag">server</span><span class="selector-class">.pem</span> <span class="selector-tag">-out</span> <span class="selector-tag">server</span><span class="selector-class">.crt</span></span><br></pre></td></tr></table></figure></p><p>分别生成了server.pem，csr.pem ，server.crt，其中server.pem和server.crt可实际使用</p><p>难点之二，自签证书的信任问题<br>一般使用https网址访问nodejs项目后，浏览器都会提示不安全，选择详细信息之后继续访问即可（表示暂时信任证书）</p><p>难点之三，前后端统一IP问题<br>nodejs同时负责前后端时，如果前端是localhost:8080，那么不要把后端的访问URL定义为127.0.0.1:8080，因为在浏览器看来这两者不一样，你在访问前端界面时，浏览器弹出的提示被你继续之后，信任的只是localhost:8080，之后访问127.0.0.1:8080的接口就会报失败，因为后台接口浏览器并不会征求用户的意见，一旦判断不信任证书，直接报错返回</p><p>另外，websocket如果想从ws升级为wss，也可以使用相同的方法生成自签证书，如果要与nodejs前端交互，为了信任该证书，可以在浏览器中尝试访问websocket地址(wss替换为https)，信任之后，在不关闭浏览器标签页的情况下，访问nodejs前端URL，即可与nodejs前端交互</p><p>总之，最好当然是用正规证书，如果是是用自签证书，以上的坑还请注意，测试系统 WIN10 x64 Edge</p>]]></content:encoded>
+      
+      <comments>https://doggedvirus.com/2017/11/12/%E5%AF%B9nodejs%E9%A1%B9%E7%9B%AE%E8%BF%9B%E8%A1%8Chttps%E5%8C%96/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>QSerialPort线程化处理</title>
+      <link>https://doggedvirus.com/2017/11/11/QSerialPort%E7%BA%BF%E7%A8%8B%E5%8C%96%E5%A4%84%E7%90%86/</link>
+      <guid>https://doggedvirus.com/2017/11/11/QSerialPort%E7%BA%BF%E7%A8%8B%E5%8C%96%E5%A4%84%E7%90%86/</guid>
+      <pubDate>Sat, 11 Nov 2017 04:19:42 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;QSerialPort天生异步，与所有继承自QIODevice的类一样，然而串口操作在实际使用过程中，通常都是一写一读，如果在写完之后一直等待读取，无疑浪费了QSerialPort的异步特性，通过使用QEventLoop可以很好地解决这个问题。&lt;/p&gt;
+&lt;p&gt;代码如下:&lt;b
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>QSerialPort天生异步，与所有继承自QIODevice的类一样，然而串口操作在实际使用过程中，通常都是一写一读，如果在写完之后一直等待读取，无疑浪费了QSerialPort的异步特性，通过使用QEventLoop可以很好地解决这个问题。</p><p>代码如下:<br><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">QEventLoop <span class="keyword">loop</span>;</span><br><span class="line">pSerialPort-&gt;write((<span class="built_in">char</span>*)aucSend, datalen + <span class="number">5</span>);</span><br><span class="line"><span class="comment">//监听readyRead，如果监听到readyRead，立刻退出此段loop</span></span><br><span class="line">QObject::connect(pSerialPort, &amp;QSerialPort::readyRead, &amp;<span class="keyword">loop</span>, &amp;QEventLoop::quit);</span><br><span class="line"><span class="comment">//1秒后，立刻退出此段loop</span></span><br><span class="line">QTimer::singleShot(<span class="number">1000</span>, &amp;<span class="keyword">loop</span>, SLOT(quit()));</span><br><span class="line"><span class="comment">//loop进行事件循环，此时主线程可以去处理其他事情</span></span><br><span class="line"><span class="keyword">loop</span>.exec();</span><br><span class="line"></span><br><span class="line"><span class="comment">//查看串口是否可读，即判断loop是监听到readyRead退出还是1秒超时退出</span></span><br><span class="line"><span class="keyword">if</span>(<span class="literal">false</span> == pSerialPort-&gt;isReadable())</span><br><span class="line">&#123;</span><br><span class="line">m_LastError = <span class="string">"(Encoder)Failed to read data from COM buffer."</span>;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content:encoded>
+      
+      <comments>https://doggedvirus.com/2017/11/11/QSerialPort%E7%BA%BF%E7%A8%8B%E5%8C%96%E5%A4%84%E7%90%86/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>使用QSerialPort时对串口插拔进行监听</title>
+      <link>https://doggedvirus.com/2017/11/10/%E4%BD%BF%E7%94%A8QSerialPort%E6%97%B6%E5%AF%B9%E4%B8%B2%E5%8F%A3%E6%8F%92%E6%8B%94%E8%BF%9B%E8%A1%8C%E7%9B%91%E5%90%AC/</link>
+      <guid>https://doggedvirus.com/2017/11/10/%E4%BD%BF%E7%94%A8QSerialPort%E6%97%B6%E5%AF%B9%E4%B8%B2%E5%8F%A3%E6%8F%92%E6%8B%94%E8%BF%9B%E8%A1%8C%E7%9B%91%E5%90%AC/</guid>
+      <pubDate>Fri, 10 Nov 2017 13:12:37 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;很早就注意到了QSerialPort这个类，Qt自带的串口操作类，比VC使用的文件读写类对串口进行操作方便多了，并且天生支持异步读写，然而，QSerialPort类本身仅提供对某串口进行读写，却不支持对整个系统的串口插拔事件拦截，单单使用QSerialPort并不能有效监听
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>很早就注意到了QSerialPort这个类，Qt自带的串口操作类，比VC使用的文件读写类对串口进行操作方便多了，并且天生支持异步读写，然而，QSerialPort类本身仅提供对某串口进行读写，却不支持对整个系统的串口插拔事件拦截，单单使用QSerialPort并不能有效监听串口插拔从而实时监控自己所需的串口设备是否插入。</p><p>带界面的Qt程序可以通过拦截winEvent来区别出硬件事件，从来识别出串口插拔，但是我偏偏需要写一个不带界面的，这个时候，QSerialPortInfo就能派上大用，QSerialPortInfo::availablePorts()能返回系统内所有可用串口，虽然不能做到实时检测，但是只要自己设置一个轮询，就能达到和实时检测差不多的效果。</p><p>代码如下:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">QList&lt;QSerialPortInfo&gt; <span class="built_in">list</span> = QSerialPortInfo::availablePorts();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="built_in">list</span>.count();i++)</span><br><span class="line">&#123;</span><br><span class="line">m_serialPort-&gt;setPortName(<span class="built_in">list</span>.at(i).portName());</span><br><span class="line"><span class="comment">//打开串口</span></span><br><span class="line"><span class="keyword">if</span>(<span class="literal">false</span> == m_serialPort-&gt;open(QIODevice::ReadWrite))</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">continue</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置波特率</span></span><br><span class="line">m_serialPort-&gt;setBaudRate(QSerialPort::Baud115200);</span><br><span class="line"><span class="comment">//设置数据位数</span></span><br><span class="line">m_serialPort-&gt;setDataBits(QSerialPort::Data8);</span><br><span class="line"><span class="comment">//设置奇偶校验</span></span><br><span class="line">m_serialPort-&gt;setParity(QSerialPort::NoParity);</span><br><span class="line"><span class="comment">//设置停止位</span></span><br><span class="line">m_serialPort-&gt;setStopBits(QSerialPort::OneStop);</span><br><span class="line"></span><br><span class="line"><span class="comment">//尝试与打开的串口通信，确认是否是需要的设备</span></span><br><span class="line"><span class="comment">//do things</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content:encoded>
+      
+      <comments>https://doggedvirus.com/2017/11/10/%E4%BD%BF%E7%94%A8QSerialPort%E6%97%B6%E5%AF%B9%E4%B8%B2%E5%8F%A3%E6%8F%92%E6%8B%94%E8%BF%9B%E8%A1%8C%E7%9B%91%E5%90%AC/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>使用Qt制作nodejs能用的64位dll</title>
+      <link>https://doggedvirus.com/2017/07/22/%E4%BD%BF%E7%94%A8Qt%E5%88%B6%E4%BD%9Cnodejs%E8%83%BD%E7%94%A8%E7%9A%8464%E4%BD%8Ddll/</link>
+      <guid>https://doggedvirus.com/2017/07/22/%E4%BD%BF%E7%94%A8Qt%E5%88%B6%E4%BD%9Cnodejs%E8%83%BD%E7%94%A8%E7%9A%8464%E4%BD%8Ddll/</guid>
+      <pubDate>Sat, 22 Jul 2017 03:37:15 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;这个需求来自于工作，项目使用nodejs作为后台，然而出于性能考虑，需要使用调用动态库来解析指定设备的交互报文。&lt;br&gt;过程不再细述，最终的需求是，在windows/linux的64位服务器上，采用nodejs作为后台的项目，需要调用动态库&lt;br&gt;由于需要跨平台，自然选择了
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>这个需求来自于工作，项目使用nodejs作为后台，然而出于性能考虑，需要使用调用动态库来解析指定设备的交互报文。<br>过程不再细述，最终的需求是，在windows/linux的64位服务器上，采用nodejs作为后台的项目，需要调用动态库<br>由于需要跨平台，自然选择了使用Qt来做动态库，虽然我最近才知道VS还有Linux版<br>1.nodejs仅支持C库而不支持C++库，这个意思并不是库内不能使用C++语法，而是接口是C风格，并且对外暴露的，采用Depends查看接口后，看到接口类型应该是C<br><img src="./image/cdll.png" alt="dll"></p><p>这个比较容易解决，将Qt默认定义的以类的形式实现C++库改成接口就行了，无非是对外直接暴露接口，使用全局变量实例化接口类，在接口中直接调用接口的方法，并且在声明时一定要加上extern “C”<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span>; <span class="function">FSUSHARED_EXPORT <span class="keyword">char</span>* <span class="title">dataFormat</span><span class="params">(<span class="keyword">char</span>* pData, <span class="keyword">int</span> iLen)</span></span>;</span><br></pre></td></tr></table></figure></p><p>2.64位动态库（windows）<br>也许有人会说32位的东西照样可以用在64位的机器上，不过这个东西一般指的是可执行程序，32位可执行程序当然可以在64位机使用，调用的是32位的动态库，但是64位的可执行程序只能调用64位动态库<br>这个就比较麻烦了，因为qt官方下载的windows离线包一直自带的是32位的全套库和32位的mingw编译器，要想获得64位bit，必须自己下载64位的mingw编译器并编译Qt源码，以下是步骤<br>环境 win10 64bit Qt5.5.1(为了支持XP这是最晚的版本了，Qt5.6.0开始就对XP支持不太好)，mingw4.9.2（Qt5.5.1默认搭配4.9.2）</p><p><strong>&gt;下载mingw-w64</strong><br>这步时不要使用在线下载工具，不是报错就是卡在中间，直接下载离线安装包，我是花了4个小时才得出这个结论并找到4.9.2的离线包，太坑了<br>这是<a href="https://jaist.dl.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/4.9.2/threads-win32/seh/x86_64-4.9.2-release-win32-seh-rt_v4-rev4.7z" target="_blank" rel="noopener">下载地址</a>，如果要使用其他版本，自己改一下url就行</p><p><strong>&gt;下载Qt5.5.1源码</strong><br>这个最简单，去官网下就行</p><p><strong>&gt;使用下载的64位编译器，编译下载好的源码</strong><br>此步主要参考<a href="http://blog.csdn.net/q1302182594/article/details/50197587" target="_blank" rel="noopener">http://blog.csdn.net/q1302182594/article/details/50197587</a>，有几个非常重要的点需要明确，不然参考的教程作者写着全部顺利通过，但是自己编译起来就会各种错误</p><p>#1 下载离线包</p><p>#2 MINGW_4_9_2 这个环境变量必须建立，同时建议把64位编译器放到32位编译器同目录下，一般在xx\Qt\Qt5.5.1\Tools\目录下，这是一个强迫症患者的建议</p><p>#3 不要怀疑为什么编译64位库却使用win32-g++/mingw32-make等参数</p><p>#4 -prefix 参数后建议填写与32位库同一个目录，一般在xx\Qt\Qt5.5.1\5.5\目录下，这是一个强迫症患者的建议</p><p>#5 编译前先下载python安装包，并将其路径进入环境变量，参考<a href="http://blog.csdn.net/sinat_30585263/article/details/47619771" target="_blank" rel="noopener">这里</a></p><p>#6 使用mingw32-make时，最好搭配以下两个参数一起，-k表示如果出现编译错误就尽量跳过继续编译，-j x表示采用几颗CPU核心一起编译，电脑在编译期间不使用的话，可以满负荷编译，速度可以快一些，作为参考，在不使用-j参数的情况下（默认单核心编译），大概使用了6小时完成编译，CPU型号是Inter Core i5-7300U<br>由于在编译时遇到了”File too big”错误，又因为项目急需，我直接采用了-k跳过错误，获得了绝大多数的64位库，如果有谁能完美编译，希望能告诉我方法</p><p><strong>&gt;在Qt Creator上创建64位的构建套件（工具-选项-构建与运行）</strong></p><p>#1 创建64位编译器</p><p>#2 创建Qt Version</p><p>#3 创建构建套件</p><p><strong>&gt;修改项目的构建套件为64位套件，并编译出dll</strong><br>此处要注意，编译出的dll依赖于64位的Qt库，可以使用depends查看其依赖的模块，并一起拷贝给调用者<br>另外nodejs调用者要注意，nodejs调用的dll并不会识别在同目录下的Qt库，要把这些库放在系统目录下或者修改环境变量才能使用</p><p><strong>&gt;2018/12/18新增File too big的解决办法</strong><br>分别打开源码中的下面两个文件<br>qt3d\src\plugins\sceneparsers\assimp\assimp.pro<br>qt3d\3dtools\qgltf\qgltf.pro<br>在末尾加入<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">if</span><span class="params">(win32-g++*:if(CONFIG(debug, debug|release)</span></span>)) &#123;</span><br><span class="line">    QMAKE_CXXFLAGS += -Wa,-mbig-obj</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>编译时即可完美编译<br>一个忠告，不要没事重置系统，重装开发环境会把自己以前踩过的坑一个不漏地全部踩一遍</p>]]></content:encoded>
+      
+      <comments>https://doggedvirus.com/2017/07/22/%E4%BD%BF%E7%94%A8Qt%E5%88%B6%E4%BD%9Cnodejs%E8%83%BD%E7%94%A8%E7%9A%8464%E4%BD%8Ddll/#disqus_thread</comments>
+    </item>
+    
+  </channel>
+</rss>
