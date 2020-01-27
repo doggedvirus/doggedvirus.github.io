@@ -93,12 +93,12 @@
 <meta property="og:site_name" content="Virus的Blog">
 <meta property="og:description" content="不知为什么，使用AT指令命令设备（测试设备USB Modem : HUAWEI E3131）发送短信时，使用Unicode和7bit编码方式都能成功，但是8bit（就是ASCII）方式不成功。当需要发送的短信只包含标准字符并且使用unicode可能超过70个字符时，7bit编码就会被采用以增加短信长度限制到140个字符。原理图出自于这里  C++（Qt）代码如下 12345678910111213">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://doggedvirus.com/2017/01/06/短信编码从8bit转到7bit/image/7bit.gif">
-<meta property="og:updated_time" content="2020-01-26T16:24:38.261Z">
+<meta property="og:image" content="https://doggedvirus.com/2017/01/06/短信编码从8bit转到7bit/7bit.gif">
+<meta property="og:updated_time" content="2020-01-27T14:56:01.477Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="短信编码从8bit转到7bit">
 <meta name="twitter:description" content="不知为什么，使用AT指令命令设备（测试设备USB Modem : HUAWEI E3131）发送短信时，使用Unicode和7bit编码方式都能成功，但是8bit（就是ASCII）方式不成功。当需要发送的短信只包含标准字符并且使用unicode可能超过70个字符时，7bit编码就会被采用以增加短信长度限制到140个字符。原理图出自于这里  C++（Qt）代码如下 12345678910111213">
-<meta name="twitter:image" content="https://doggedvirus.com/2017/01/06/短信编码从8bit转到7bit/image/7bit.gif">
+<meta name="twitter:image" content="https://doggedvirus.com/2017/01/06/短信编码从8bit转到7bit/7bit.gif">
 
 
 
@@ -294,7 +294,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Virus">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/./source/images/dglogo512.png">
+      <meta itemprop="image" content="/images/dglogo512.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -390,7 +390,7 @@
 
       
         <p>不知为什么，使用AT指令命令设备（测试设备USB Modem : HUAWEI E3131）发送短信时，使用Unicode和7bit编码方式都能成功，但是8bit（就是ASCII）方式不成功。当需要发送的短信只包含标准字符并且使用unicode可能超过70个字符时，7bit编码就会被采用以增加短信长度限制到140个字符。<br>原理图出自于<a href="http://blog.csdn.net/supergame111/article/details/5866652" target="_blank" rel="noopener">这里</a></p>
-<p><img src="./image/7bit.gif" alt="7bit"></p>
+<p><img src="//doggedvirus.com/2017/01/06/短信编码从8bit转到7bit/7bit.gif" alt="7bit"></p>
 <p>C++（Qt）代码如下</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Content是一个QString，如"AAB1E78653"</span></span><br><span class="line"><span class="keyword">int</span> iLen = Content.length();</span><br><span class="line">BYTE *pucDate = <span class="keyword">new</span> BYTE[iLen];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; iLen;i++)</span><br><span class="line">&#123;</span><br><span class="line">    pucDate[i] = Content.at(i).toLatin1();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//8bit(ascii)转7bit</span></span><br><span class="line">BYTE *pucDate7 = <span class="keyword">new</span> BYTE[iLen];</span><br><span class="line"><span class="keyword">int</span> lackNumber = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> bit7pos = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; iLen;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//7个8bit数据=8个7bit数据个为一个循环</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="number">8</span> == lackNumber)</span><br><span class="line">    &#123;</span><br><span class="line">        lackNumber = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(i + <span class="number">1</span> == iLen)</span><br><span class="line">        &#123;</span><br><span class="line">            pucDate7[bit7pos] = pucDate[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            pucDate7[bit7pos] = ((pucDate[i + <span class="number">1</span>] &amp; ((BYTE)qPow(<span class="number">2</span>, lackNumber) - <span class="number">1</span>)) * (BYTE)qPow(<span class="number">2</span>, <span class="number">8</span> - lackNumber) + pucDate[i]);</span><br><span class="line">            pucDate[i + <span class="number">1</span>] = pucDate[i + <span class="number">1</span>] / (BYTE)qPow(<span class="number">2</span>, lackNumber);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        lackNumber++;</span><br><span class="line">        bit7pos++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
@@ -412,14 +412,14 @@
 
     
       <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="./source/images/qrcode_alipay.jpg" alt="Virus 微信支付">
+        <img id="wechat_qr" src="/images/qrcode_wechat.png" alt="Virus 微信支付">
         <p>微信支付</p>
       </div>
     
 
     
       <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="./source/images/qrcode_wechat.jpg" alt="Virus 支付宝">
+        <img id="alipay_qr" src="/images/qrcode_alipay.jpg" alt="Virus 支付宝">
         <p>支付宝</p>
       </div>
     
@@ -544,7 +544,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/./source/images/dglogo512.png" alt="Virus">
+              <img class="site-author-image" itemprop="image" src="/images/dglogo512.png" alt="Virus">
             
               <p class="site-author-name" itemprop="name">Virus</p>
               <p class="site-description motion-element" itemprop="description">我们的征途是星辰和大海</p>

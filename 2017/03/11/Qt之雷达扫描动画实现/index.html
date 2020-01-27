@@ -93,12 +93,12 @@
 <meta property="og:site_name" content="Virus的Blog">
 <meta property="og:description" content="由于qtresmonitor项目需要，我重新设计了UI（雷达扫描动画）并用了一个下午实现。基本思路就是用QPainter绘制线条，用QConicalGradient绘制角度渐变色传到github上的代码没有加注释，在这加一下123456789101112131415//draw a radarQPainter painter_horizon(this);painter_horizon.setPen">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://doggedvirus.com/2017/03/11/Qt之雷达扫描动画实现/image/radar.gif">
-<meta property="og:updated_time" content="2020-01-26T16:29:35.031Z">
+<meta property="og:image" content="https://doggedvirus.com/2017/03/11/Qt之雷达扫描动画实现/radar.gif">
+<meta property="og:updated_time" content="2020-01-27T14:54:27.894Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Qt之雷达扫描动画实现">
 <meta name="twitter:description" content="由于qtresmonitor项目需要，我重新设计了UI（雷达扫描动画）并用了一个下午实现。基本思路就是用QPainter绘制线条，用QConicalGradient绘制角度渐变色传到github上的代码没有加注释，在这加一下123456789101112131415//draw a radarQPainter painter_horizon(this);painter_horizon.setPen">
-<meta name="twitter:image" content="https://doggedvirus.com/2017/03/11/Qt之雷达扫描动画实现/image/radar.gif">
+<meta name="twitter:image" content="https://doggedvirus.com/2017/03/11/Qt之雷达扫描动画实现/radar.gif">
 
 
 
@@ -294,7 +294,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Virus">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/./source/images/dglogo512.png">
+      <meta itemprop="image" content="/images/dglogo512.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -390,7 +390,7 @@
 
       
         <p>由于<a href="https://github.com/doggedvirus/qtresmonitor" target="_blank" rel="noopener">qtresmonitor</a>项目需要，我重新设计了UI（雷达扫描动画）并用了一个下午实现。<br>基本思路就是用QPainter绘制线条，用QConicalGradient绘制角度渐变色<br>传到github上的代码没有加注释，在这加一下<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//draw a radar</span></span><br><span class="line"><span class="selector-tag">QPainter</span> <span class="selector-tag">painter_horizon</span>(this);</span><br><span class="line"><span class="selector-tag">painter_horizon</span><span class="selector-class">.setPen</span>(QPen(<span class="attribute">Qt</span>::green));<span class="comment">//设置画笔颜色</span></span><br><span class="line"><span class="comment">//m_dpi是为了适配不同大小的屏幕的一个修正值</span></span><br><span class="line"><span class="selector-tag">QConicalGradient</span> <span class="selector-tag">conicalGradient</span>(<span class="number">50</span> * m_dpi,<span class="number">50</span> * m_dpi,<span class="number">180.0</span> - m_Angle);<span class="comment">//设置角度渐变色的圆心和起始位置（3点钟方向为0度，顺时针为负角度，逆时针为正角度，-180度至+180度）</span></span><br><span class="line"><span class="selector-tag">conicalGradient</span><span class="selector-class">.setColorAt</span>(<span class="number">0</span>,<span class="attribute">Qt</span>::green);<span class="comment">//设置角度渐变色的起始颜色</span></span><br><span class="line"><span class="selector-tag">conicalGradient</span><span class="selector-class">.setColorAt</span>(<span class="number">1.0</span>,QColor(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">0</span>));<span class="comment">//设置角度渐变色的终点颜色</span></span><br><span class="line"><span class="selector-tag">painter_horizon</span><span class="selector-class">.setBrush</span>(QBrush(conicalGradient));<span class="comment">//设置渐变色的画刷</span></span><br><span class="line"><span class="selector-tag">painter_horizon</span><span class="selector-class">.drawEllipse</span>(<span class="number">0</span> * m_dpi,<span class="number">0</span> * m_dpi,<span class="number">100</span> * m_dpi,<span class="number">100</span> * m_dpi);<span class="comment">//画出该渐变色效果，同时画出雷达图外圆</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">QPainter</span> <span class="selector-tag">painter</span>(this);<span class="comment">//另一只画笔</span></span><br><span class="line"><span class="selector-tag">painter</span><span class="selector-class">.setPen</span>(QPen(<span class="attribute">Qt</span>::green));<span class="comment">//设置画笔颜色</span></span><br><span class="line"><span class="selector-tag">painter</span><span class="selector-class">.drawLine</span>(<span class="number">0</span>,<span class="number">50</span> * m_dpi,<span class="number">100</span> * m_dpi,<span class="number">50</span> * m_dpi);<span class="comment">//画出十字线之横</span></span><br><span class="line"><span class="selector-tag">painter</span><span class="selector-class">.drawLine</span>(<span class="number">50</span> * m_dpi,<span class="number">0</span>,<span class="number">50</span> * m_dpi,<span class="number">100</span> * m_dpi);<span class="comment">//画出十字线之竖</span></span><br><span class="line"><span class="selector-tag">painter</span><span class="selector-class">.drawEllipse</span>(<span class="number">20</span> * m_dpi,<span class="number">20</span> * m_dpi,<span class="number">60</span> * m_dpi,<span class="number">60</span> * m_dpi);<span class="comment">//画出雷达图内圆</span></span><br></pre></td></tr></table></figure></p>
-<p>效果如下，使用GifCam截图生成gif，只有选择灰度生成的gif才比较清晰，因此图上是灰色，但是实际代码效果是绿色<br>另，图中出现的折线效果另有代码实现<br><img src="./image/radar.gif" alt="radar.gif"></p>
+<p>效果如下，使用GifCam截图生成gif，只有选择灰度生成的gif才比较清晰，因此图上是灰色，但是实际代码效果是绿色<br>另，图中出现的折线效果另有代码实现<br><img src="//doggedvirus.com/2017/03/11/Qt之雷达扫描动画实现/radar.gif" alt="radar.gif"></p>
 
       
     </div>
@@ -411,14 +411,14 @@
 
     
       <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="./source/images/qrcode_alipay.jpg" alt="Virus 微信支付">
+        <img id="wechat_qr" src="/images/qrcode_wechat.png" alt="Virus 微信支付">
         <p>微信支付</p>
       </div>
     
 
     
       <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="./source/images/qrcode_wechat.jpg" alt="Virus 支付宝">
+        <img id="alipay_qr" src="/images/qrcode_alipay.jpg" alt="Virus 支付宝">
         <p>支付宝</p>
       </div>
     
@@ -545,7 +545,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/./source/images/dglogo512.png" alt="Virus">
+              <img class="site-author-image" itemprop="image" src="/images/dglogo512.png" alt="Virus">
             
               <p class="site-author-name" itemprop="name">Virus</p>
               <p class="site-description motion-element" itemprop="description">我们的征途是星辰和大海</p>

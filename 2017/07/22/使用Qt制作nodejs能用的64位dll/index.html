@@ -93,12 +93,12 @@
 <meta property="og:site_name" content="Virus的Blog">
 <meta property="og:description" content="这个需求来自于工作，项目使用nodejs作为后台，然而出于性能考虑，需要使用调用动态库来解析指定设备的交互报文。过程不再细述，最终的需求是，在windows/linux的64位服务器上，采用nodejs作为后台的项目，需要调用动态库由于需要跨平台，自然选择了使用Qt来做动态库，虽然我最近才知道VS还有Linux版1.nodejs仅支持C库而不支持C++库，这个意思并不是库内不能使用C++语法，而是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://doggedvirus.com/2017/07/22/使用Qt制作nodejs能用的64位dll/image/cdll.png">
-<meta property="og:updated_time" content="2020-01-26T16:28:00.774Z">
+<meta property="og:image" content="https://doggedvirus.com/2017/07/22/使用Qt制作nodejs能用的64位dll/cdll.png">
+<meta property="og:updated_time" content="2020-01-27T14:40:11.404Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Qt制作nodejs能用的64位dll">
 <meta name="twitter:description" content="这个需求来自于工作，项目使用nodejs作为后台，然而出于性能考虑，需要使用调用动态库来解析指定设备的交互报文。过程不再细述，最终的需求是，在windows/linux的64位服务器上，采用nodejs作为后台的项目，需要调用动态库由于需要跨平台，自然选择了使用Qt来做动态库，虽然我最近才知道VS还有Linux版1.nodejs仅支持C库而不支持C++库，这个意思并不是库内不能使用C++语法，而是">
-<meta name="twitter:image" content="https://doggedvirus.com/2017/07/22/使用Qt制作nodejs能用的64位dll/image/cdll.png">
+<meta name="twitter:image" content="https://doggedvirus.com/2017/07/22/使用Qt制作nodejs能用的64位dll/cdll.png">
 
 
 
@@ -294,7 +294,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Virus">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/./source/images/dglogo512.png">
+      <meta itemprop="image" content="/images/dglogo512.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -389,7 +389,7 @@
       
 
       
-        <p>这个需求来自于工作，项目使用nodejs作为后台，然而出于性能考虑，需要使用调用动态库来解析指定设备的交互报文。<br>过程不再细述，最终的需求是，在windows/linux的64位服务器上，采用nodejs作为后台的项目，需要调用动态库<br>由于需要跨平台，自然选择了使用Qt来做动态库，虽然我最近才知道VS还有Linux版<br>1.nodejs仅支持C库而不支持C++库，这个意思并不是库内不能使用C++语法，而是接口是C风格，并且对外暴露的，采用Depends查看接口后，看到接口类型应该是C<br><img src="./image/cdll.png" alt="dll"></p>
+        <p>这个需求来自于工作，项目使用nodejs作为后台，然而出于性能考虑，需要使用调用动态库来解析指定设备的交互报文。<br>过程不再细述，最终的需求是，在windows/linux的64位服务器上，采用nodejs作为后台的项目，需要调用动态库<br>由于需要跨平台，自然选择了使用Qt来做动态库，虽然我最近才知道VS还有Linux版<br>1.nodejs仅支持C库而不支持C++库，这个意思并不是库内不能使用C++语法，而是接口是C风格，并且对外暴露的，采用Depends查看接口后，看到接口类型应该是C<br><img src="//doggedvirus.com/2017/07/22/使用Qt制作nodejs能用的64位dll/cdll.png" alt="dll"></p>
 <p>这个比较容易解决，将Qt默认定义的以类的形式实现C++库改成接口就行了，无非是对外直接暴露接口，使用全局变量实例化接口类，在接口中直接调用接口的方法，并且在声明时一定要加上extern “C”<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span>; <span class="function">FSUSHARED_EXPORT <span class="keyword">char</span>* <span class="title">dataFormat</span><span class="params">(<span class="keyword">char</span>* pData, <span class="keyword">int</span> iLen)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>2.64位动态库（windows）<br>也许有人会说32位的东西照样可以用在64位的机器上，不过这个东西一般指的是可执行程序，32位可执行程序当然可以在64位机使用，调用的是32位的动态库，但是64位的可执行程序只能调用64位动态库<br>这个就比较麻烦了，因为qt官方下载的windows离线包一直自带的是32位的全套库和32位的mingw编译器，要想获得64位bit，必须自己下载64位的mingw编译器并编译Qt源码，以下是步骤<br>环境 win10 64bit Qt5.5.1(为了支持XP这是最晚的版本了，Qt5.6.0开始就对XP支持不太好)，mingw4.9.2（Qt5.5.1默认搭配4.9.2）</p>
 <p><strong>&gt;下载mingw-w64</strong><br>这步时不要使用在线下载工具，不是报错就是卡在中间，直接下载离线安装包，我是花了4个小时才得出这个结论并找到4.9.2的离线包，太坑了<br>这是<a href="https://jaist.dl.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/4.9.2/threads-win32/seh/x86_64-4.9.2-release-win32-seh-rt_v4-rev4.7z" target="_blank" rel="noopener">下载地址</a>，如果要使用其他版本，自己改一下url就行</p>
@@ -428,14 +428,14 @@
 
     
       <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="./source/images/qrcode_alipay.jpg" alt="Virus 微信支付">
+        <img id="wechat_qr" src="/images/qrcode_wechat.png" alt="Virus 微信支付">
         <p>微信支付</p>
       </div>
     
 
     
       <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="./source/images/qrcode_wechat.jpg" alt="Virus 支付宝">
+        <img id="alipay_qr" src="/images/qrcode_alipay.jpg" alt="Virus 支付宝">
         <p>支付宝</p>
       </div>
     
@@ -564,7 +564,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/./source/images/dglogo512.png" alt="Virus">
+              <img class="site-author-image" itemprop="image" src="/images/dglogo512.png" alt="Virus">
             
               <p class="site-author-name" itemprop="name">Virus</p>
               <p class="site-description motion-element" itemprop="description">我们的征途是星辰和大海</p>
